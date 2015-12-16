@@ -1,0 +1,74 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:orientation="vertical">
+
+        <com.crust87.videocropview.VideoCropView
+            android:id="@+id/cropVideoView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ratio_height="1"
+            app:ratio_width="1" />
+
+        <com.crust87.videotrackview.VideoTrackView
+            android:id="@+id/anchorVideoTrackView"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            app:screen_duration="30000"
+            app:thumbnail_per_screen="6"
+            app:track_padding="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textSeek"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:textColor="@android:color/white"
+            android:shadowColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/textDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:textColor="@android:color/white"
+            android:shadowColor="@android:color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="onButtonLoadClick"
+            android:text="Load Video" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="onButtonCropClick"
+            android:text="Crop Video" />
+    </LinearLayout>
+
+</FrameLayout>

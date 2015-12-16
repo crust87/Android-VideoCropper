@@ -1,0 +1,7 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="default_anchor_position">64dp</dimen>
+    <dimen name="anchor_width">12dp</dimen>
+    <dimen name="anchor_round">2dp</dimen>
+    <dimen name="anchor_area">18dp</dimen>
+</resources>
