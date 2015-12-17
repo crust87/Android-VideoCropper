@@ -1,6 +1,6 @@
 /*
- * Android-VideoTrackView
- * https://github.com/crust87/Android-VideoTrackView
+ * Android-VideoCropper
+ * https://github.com/crust87/Android-VideoCropper
  *
  * Mabi
  * crust87@gmail.com
