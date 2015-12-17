@@ -4,6 +4,9 @@ Android Video Cropper: Example of FFmpegExecutor, VideoCropView, VideoTrackView
 ## Screenshot
 ![](./Screenshot2.png) ![](./Screenshot3.png)
 
+see
+https://play.google.com/store/apps/details?id=com.crust87.videocropper
+
 ## Library
 ### Android-FFmpegExecutor
 https://github.com/crust87/Android-FFmpegExecutor
