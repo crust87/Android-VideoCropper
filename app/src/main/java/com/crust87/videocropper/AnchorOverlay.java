@@ -48,6 +48,7 @@ public class AnchorOverlay extends VideoTrackOverlay {
     private int mAnchorWidth;
     private int mAnchorRound;
     private int mAnchorArea;
+    private boolean isVideoOpen;
 
     // Working Variables
     protected int currentPosition;			// current start position
@@ -64,6 +65,7 @@ public class AnchorOverlay extends VideoTrackOverlay {
         mAnchorWidth = context.getResources().getDimensionPixelOffset(R.dimen.anchor_width);
         mAnchorRound = context.getResources().getDimensionPixelOffset(R.dimen.anchor_round);
         mAnchorArea = context.getResources().getDimensionPixelOffset(R.dimen.anchor_area);
+        isVideoOpen = false;
 
         mDisablePaint = new Paint(Color.parseColor("#000000"));
         mDisablePaint.setAlpha(128);
@@ -84,6 +86,7 @@ public class AnchorOverlay extends VideoTrackOverlay {
         currentDuration = (int) (mDefaultAnchorPosition / mMillisecondsPerWidth);
         mAnchor.position = mDefaultAnchorPosition;
         mDisableRect.left = mDefaultAnchorPosition;
+        isVideoOpen = true;
     }
 
     @Override
@@ -174,8 +177,10 @@ public class AnchorOverlay extends VideoTrackOverlay {
 
     @Override
     public void drawOverlay(Canvas canvas) {
-        canvas.drawRect(mDisableRect, mDisablePaint);
-        mAnchor.draw(canvas);
+        if(isVideoOpen) {
+            canvas.drawRect(mDisableRect, mDisablePaint);
+            mAnchor.draw(canvas);
+        }
     }
 
     // Track anchor class

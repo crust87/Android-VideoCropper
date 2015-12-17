@@ -6,13 +6,15 @@ import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.crust87.ffmpegexecutor.FFmpegExecutor;
@@ -55,6 +57,28 @@ public class MainActivity extends AppCompatActivity {
         loadGUI();
         initFFmpeg();
         bindEvent();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_open:
+                openVideo();
+                return true;
+            case R.id.action_crop:
+                cropVideo();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void loadGUI() {
@@ -163,14 +187,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onButtonLoadClick(View v) {
+    public void openVideo() {
         Intent lIntent = new Intent(Intent.ACTION_PICK);
         lIntent.setType("video/*");
         lIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivityForResult(lIntent, 1000);
     }
 
-    public void onButtonCropClick(View v) {
+    public void cropVideo() {
         mVideoCropView.pause();
 
         new AsyncTask<Void, Void, Void>() {

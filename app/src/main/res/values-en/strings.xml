@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Video Cropper</string>
+
+    <!-- Action Bar -->
+    <string name="action_open">Open</string>
+    <string name="action_crop">Crop</string>
+</resources>

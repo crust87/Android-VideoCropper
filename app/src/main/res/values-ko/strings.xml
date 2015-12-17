@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">동영상 자르기</string>
+
+    <!-- Action Bar -->
+    <string name="action_open">열기</string>
+    <string name="action_crop">자르기</string>
+</resources>

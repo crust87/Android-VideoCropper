@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="@color/background"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -37,38 +37,17 @@
             android:id="@+id/textSeek"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dp"
+            android:shadowColor="@android:color/black"
             android:textColor="@android:color/white"
-            android:shadowColor="@android:color/black" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/textDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14dp"
+            android:shadowColor="@android:color/black"
             android:textColor="@android:color/white"
-            android:shadowColor="@android:color/black" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="onButtonLoadClick"
-            android:text="Load Video" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="onButtonCropClick"
-            android:text="Crop Video" />
+            android:textSize="14dp" />
     </LinearLayout>
 
 </FrameLayout>
