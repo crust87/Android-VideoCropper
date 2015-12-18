@@ -36,6 +36,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crust87.ffmpegexecutor.FFmpegExecutor;
 import com.crust87.videocropview.VideoCropView;
@@ -114,33 +115,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initFFmpeg() {
-        File ffmpegDirPath = new File(getApplicationContext().getFilesDir().getAbsolutePath() + "/ffmpeg");
-        if(!ffmpegDirPath.exists()) {
-            ffmpegDirPath.mkdir();
-        }
-
         try {
-            InputStream ffmpegInputStream = getApplicationContext().getAssets().open("ffmpeg");
-            FileMover fm = new FileMover(ffmpegInputStream, ffmpegDirPath.getAbsolutePath() + "/ffmpeg");
-            fm.moveIt();
-        } catch (IOException e) {
-            e.printStackTrace();
+            InputStream ffmpegFileStream = getApplicationContext().getAssets().open("ffmpeg");
+            mExecutor = new FFmpegExecutor(getApplicationContext(), ffmpegFileStream);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Fail FFmpeg Setting", Toast.LENGTH_LONG).show();
+            finish();
         }
-
-        try {
-            String[] args = { "/system/bin/chmod", "755", ffmpegDirPath.getAbsolutePath() + "/ffmpeg" };
-            Process process = new ProcessBuilder(args).start();
-            try {
-                process.waitFor();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            process.destroy();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        mExecutor = new FFmpegExecutor(getApplicationContext(), ffmpegDirPath.getAbsolutePath() + "/ffmpeg");
     }
 
     private void bindEvent() {
@@ -330,33 +311,6 @@ public class MainActivity extends AppCompatActivity {
             if (cursor != null) {
                 cursor.close();
             }
-        }
-    }
-
-    // Copy file
-    private class FileMover {
-
-        private InputStream mInputStream;
-        private String mDestination;
-
-        public FileMover(InputStream inputStream, String destination) {
-            mInputStream = inputStream;
-            mDestination = destination;
-        }
-
-        public void moveIt() throws IOException {
-
-            File destinationFile = new File(mDestination);
-            OutputStream destinationOut = new BufferedOutputStream(new FileOutputStream(destinationFile));
-
-            int numRead;
-            byte[] buf = new byte[1024];
-            while ((numRead = mInputStream.read(buf) ) >= 0) {
-                destinationOut.write(buf, 0, numRead);
-            }
-
-            destinationOut.flush();
-            destinationOut.close();
         }
     }
 }
