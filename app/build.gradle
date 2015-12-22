@@ -28,7 +28,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.crust87:video-track-view:1.1.1'
+    compile 'com.crust87:video-track-view:1.2.0'
     compile 'com.crust87:ffmpeg-executor:1.1.3'
     compile 'com.crust87:video-crop-view:1.1.0'
 }
