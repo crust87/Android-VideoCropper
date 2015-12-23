@@ -69,11 +69,16 @@ public class MainActivity extends AppCompatActivity {
     private int mVideoSeek;			// generated video seek
     private int mVideoDuration;		// generated video duration
 
+    private int mRatioWidth;
+    private int mRatioHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setElevation(0);
+
+        mRatioWidth = 1;
+        mRatioHeight = 1;
 
         loadGUI();
         initFFmpeg();
@@ -96,6 +101,21 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_crop:
                 cropVideo();
+                return true;
+            case R.id.action_set_ratio43:
+                mRatioWidth = 4;
+                mRatioHeight = 3;
+                mVideoCropView.setRatio(4, 3);
+                return true;
+            case R.id.action_set_ratio11:
+                mRatioWidth = 1;
+                mRatioHeight = 1;
+                mVideoCropView.setRatio(1, 1);
+                return true;
+            case R.id.action_set_ratio34:
+                mRatioWidth = 3;
+                mRatioHeight = 4;
+                mVideoCropView.setRatio(3, 4);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -240,16 +260,24 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     String filter = "";
 
+                    // FIXME
+                    String filterScale = "scale=640:640, setsar=1:1";
+                    if(mRatioWidth == 4) {
+                        filterScale = "scale=640:480, setsar=1:1";
+                    } else if(mRatioWidth == 3) {
+                        filterScale = "scale=480:640, setsar=1:1";
+                    }
+
                     if(rotate == 0) {
-                        filter = "crop="+width+":"+height+":"+positionX+":"+positionY+", scale=640:640, setsar=1:1";
+                        filter = "crop="+width+":"+height+":"+positionX+":"+positionY+ ", " + filterScale;
                     } else if(rotate == 90) {
-                        filter = "crop="+height+":"+width+":"+positionY+":"+positionX +", scale=640:640, setsar=1:1";
+                        filter = "crop="+height+":"+width+":"+positionY+":"+positionX + ", " + filterScale;
                     } else if(rotate == 180) {
-                        filter = "crop="+width+":"+height+":"+(videoWidth - positionX - width)+":"+positionY+ ", scale=640:640, setsar=1:1";
+                        filter = "crop="+width+":"+height+":"+(videoWidth - positionX - width)+":"+positionY + ", " + filterScale;
                     } else if(rotate == 270) {
-                        filter = "crop="+height+":"+width+":"+(videoHeight - positionY - height)+":"+positionX + ", scale=640:640, setsar=1:1";
+                        filter = "crop="+height+":"+width+":"+(videoHeight - positionY - height)+":"+positionX + ", " + filterScale;
                     } else {
-                        filter = "crop="+width+":"+height+":"+positionX+":"+positionY+", scale=640:640, setsar=1:1";
+                        filter = "crop="+width+":"+height+":"+positionX+":"+positionY + ", " + filterScale;
                     }
 
                     mExecutor.putCommand("-y")

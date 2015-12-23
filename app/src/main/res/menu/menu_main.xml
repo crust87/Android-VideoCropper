@@ -12,4 +12,19 @@
         android:icon="@drawable/ic_action_crop"
         android:title="@string/action_crop"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_set_ratio43"
+        android:orderInCategory="100"
+        android:title="@string/action_ratio43"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_set_ratio11"
+        android:orderInCategory="100"
+        android:title="@string/action_ratio11"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_set_ratio34"
+        android:orderInCategory="100"
+        android:title="@string/action_ratio34"
+        app:showAsAction="never" />
 </menu>
