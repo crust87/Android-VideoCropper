@@ -45,9 +45,6 @@ public class AnchorOverlay extends VideoTrackOverlay {
 
     // Attributes
     private int mDefaultAnchorPosition;
-    private int mAnchorWidth;
-    private int mAnchorRound;
-    private int mAnchorArea;
     private boolean isVideoOpen;
 
     // Working Variables
@@ -60,11 +57,8 @@ public class AnchorOverlay extends VideoTrackOverlay {
     public AnchorOverlay(Context context) {
         super(context);
 
-        mAnchor = new Anchor();
+        mAnchor = new Anchor(context);
         mDefaultAnchorPosition = context.getResources().getDimensionPixelOffset(R.dimen.default_anchor_position);
-        mAnchorWidth = context.getResources().getDimensionPixelOffset(R.dimen.anchor_width);
-        mAnchorRound = context.getResources().getDimensionPixelOffset(R.dimen.anchor_round);
-        mAnchorArea = context.getResources().getDimensionPixelOffset(R.dimen.anchor_area);
         isVideoOpen = false;
 
         mDisablePaint = new Paint(Color.parseColor("#000000"));
@@ -185,12 +179,24 @@ public class AnchorOverlay extends VideoTrackOverlay {
 
     // Track anchor class
     private class Anchor {
-        private Paint mAnchorPaint;
-        public float position;
 
-        public Anchor() {
+        // Components
+        private Paint mAnchorPaint;
+
+        // Attributes
+        public float position;
+        private int mAnchorWidth;
+        private int mAnchorRound;
+        private int mAnchorArea;
+
+        public Anchor(Context context) {
             mAnchorPaint = new Paint();
             mAnchorPaint.setColor(Color.parseColor("#ffffff"));
+
+
+            mAnchorWidth = context.getResources().getDimensionPixelOffset(R.dimen.anchor_width);
+            mAnchorRound = context.getResources().getDimensionPixelOffset(R.dimen.anchor_round);
+            mAnchorArea = context.getResources().getDimensionPixelOffset(R.dimen.anchor_area);
         }
 
         public boolean contains(float x) {

@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     // Layout Components
     private VideoCropView mVideoCropView;
     private VideoTrackView mAnchorVideoTrackView;
-    private AnchorOverlay mAnchorOverlay;
+    private DoubleAnchorOverlay mAnchorOverlay;
     private ProgressDialog mProgressDialog;
 
     private TextView mTextSeek;
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         mTextSeek = (TextView) findViewById(R.id.textSeek);
         mTextDuration = (TextView) findViewById(R.id.textDuration);
 
-        mAnchorOverlay = new AnchorOverlay(getApplicationContext());
+        mAnchorOverlay = new DoubleAnchorOverlay(getApplicationContext());
         mAnchorVideoTrackView.setVideoTrackOverlay(mAnchorOverlay);
     }
 
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mAnchorOverlay.setOnUpdateAnchorListener(new AnchorOverlay.OnUpdateAnchorListener() {
+        mAnchorOverlay.setOnUpdateAnchorListener(new DoubleAnchorOverlay.OnUpdateAnchorListener() {
             @Override
             public void onUpdatePositionStart() {
                 mVideoCropView.pause();
