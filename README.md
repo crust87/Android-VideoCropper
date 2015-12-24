@@ -4,10 +4,10 @@ Android Video Cropper: Example of FFmpegExecutor, VideoCropView, VideoTrackView
 ## Update
 ### 1.1
 VideoView can be changed<br />
- ![](./Screenshot4.png)
+ ![](./Screenshot3.png)
 
 ## Screenshot
-![](./Screenshot2.png) ![](./Screenshot3.png)
+![](./Screenshot2.png) ![](./Screenshot4.png)
 
 see
 https://play.google.com/store/apps/details?id=com.crust87.videocropper
