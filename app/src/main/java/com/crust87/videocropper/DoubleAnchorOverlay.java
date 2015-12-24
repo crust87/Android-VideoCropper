@@ -55,7 +55,7 @@ public class DoubleAnchorOverlay extends VideoTrackOverlay {
         super.onSurfaceChanged(width, height);
 
         mDisableRectRight = new Rect((int) mEndAnchor.position, 0, width, height);
-        mDisableRectLeft = new Rect(0, (int) mStartAnchor.position, width, height);
+        mDisableRectLeft = new Rect(0, 0, (int) mStartAnchor.position, height);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class DoubleAnchorOverlay extends VideoTrackOverlay {
         currentPosition = 0;
         currentDuration = (int) (mDefaultAnchorPosition / mMillisecondsPerWidth);
         mStartAnchor.position = mDefaultAnchorPosition;
-        mEndAnchor.position = mDefaultAnchorPosition;
+        mEndAnchor.position = mWidth - mDefaultAnchorPosition;
         mDisableRectRight.left = mDefaultAnchorPosition;
         mDisableRectLeft.right = mDefaultAnchorPosition;
         isVideoOpen = true;
@@ -129,21 +129,21 @@ public class DoubleAnchorOverlay extends VideoTrackOverlay {
         track.right += x;
 
         currentPosition = (int) -(track.left / mMillisecondsPerWidth);
-        if(x < 0) {
-            int nextDuration = mVideoDuration - currentPosition;
-            currentDuration = nextDuration > currentDuration ? currentDuration : nextDuration;
-            mEndAnchor.position = (int) (currentDuration * mMillisecondsPerWidth);
-            mDisableRectRight.left = (int) mEndAnchor.position;
-        }
-
-        if(mOnUpdateAnchorListener != null) {
-            mOnUpdateAnchorListener.onUpdatePosition(currentPosition, currentDuration);
-        }
     }
 
     private void updateAnchorPosition(VideoTrackView.Track track, float x) {
         if(actionType ==  ACTION_TYPE.startAnchor) {
+            // check next position in boundary
+            if(mStartAnchor.position + x < 0) {
+                x = 0 - mStartAnchor.position;
+            }
 
+            if(mStartAnchor.position + x > track.right) {
+                x = track.right - mStartAnchor.position;
+            }
+
+            mStartAnchor.position += x;
+            mDisableRectLeft.right = (int) mStartAnchor.position;
         } else if(actionType == ACTION_TYPE.endAnchor) {
             // check next position in boundary
             if(mEndAnchor.position + x < 0) {
@@ -156,17 +156,13 @@ public class DoubleAnchorOverlay extends VideoTrackOverlay {
 
             mEndAnchor.position += x;
             mDisableRectRight.left = (int) mEndAnchor.position;
-
-            currentDuration = (int) (mEndAnchor.position / mMillisecondsPerWidth);
-            if(mOnUpdateAnchorListener != null) {
-                mOnUpdateAnchorListener.onUpdatePosition(currentPosition, currentDuration);
-            }
         }
     }
 
     @Override
     public void drawOverlay(Canvas canvas) {
         if(isVideoOpen) {
+            canvas.drawRect(mDisableRectLeft, mDisablePaint);
             canvas.drawRect(mDisableRectRight, mDisablePaint);
             mStartAnchor.draw(canvas);
             mEndAnchor.draw(canvas);
@@ -188,7 +184,6 @@ public class DoubleAnchorOverlay extends VideoTrackOverlay {
         public Anchor(Context context) {
             mAnchorPaint = new Paint();
             mAnchorPaint.setColor(Color.parseColor("#ffffff"));
-
 
             mAnchorWidth = context.getResources().getDimensionPixelOffset(R.dimen.anchor_width);
             mAnchorRound = context.getResources().getDimensionPixelOffset(R.dimen.anchor_round);
