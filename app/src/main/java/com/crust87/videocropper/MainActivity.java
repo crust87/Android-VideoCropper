@@ -42,12 +42,8 @@ import com.crust87.ffmpegexecutor.FFmpegExecutor;
 import com.crust87.videocropview.VideoCropView;
 import com.crust87.videotrackview.VideoTrackView;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity {
     // Layout Components
@@ -116,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
                 mRatioWidth = 3;
                 mRatioHeight = 4;
                 mVideoCropView.setRatio(3, 4);
+                return true;
+            case R.id.action_set_ratio_original:
+                mRatioWidth = 0;
+                mRatioHeight = 0;
+                mVideoCropView.setOriginalRatio();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -258,28 +259,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    String filter = "";
-
-                    // FIXME
-                    String filterScale = "scale=640:640, setsar=1:1";
-                    if(mRatioWidth == 4) {
-                        filterScale = "scale=640:480, setsar=1:1";
-                    } else if(mRatioWidth == 3) {
-                        filterScale = "scale=480:640, setsar=1:1";
-                    }
-
-                    if(rotate == 0) {
-                        filter = "crop="+width+":"+height+":"+positionX+":"+positionY+ ", " + filterScale;
-                    } else if(rotate == 90) {
-                        filter = "crop="+height+":"+width+":"+positionY+":"+positionX + ", " + filterScale;
-                    } else if(rotate == 180) {
-                        filter = "crop="+width+":"+height+":"+(videoWidth - positionX - width)+":"+positionY + ", " + filterScale;
-                    } else if(rotate == 270) {
-                        filter = "crop="+height+":"+width+":"+(videoHeight - positionY - height)+":"+positionX + ", " + filterScale;
-                    } else {
-                        filter = "crop="+width+":"+height+":"+positionX+":"+positionY + ", " + filterScale;
-                    }
-
                     mExecutor.putCommand("-y")
                             .putCommand("-i")
                             .putCommand(originalPath)
@@ -294,10 +273,40 @@ public class MainActivity extends AppCompatActivity {
                             .putCommand("-ss")
                             .putCommand(start)
                             .putCommand("-t")
-                            .putCommand(dur)
-                            .putCommand("-vf")
-                            .putCommand(filter)
-                            .putCommand("-c:a")
+                            .putCommand(dur);
+
+                    // When need crop
+                    // FIXME
+                    if(mRatioWidth != 0) {
+                        String filter = "";
+
+                        // FIXME
+                        String filterScale = "setsar=1:1";
+                        if(mRatioWidth == 4) {
+                            filterScale = "scale=640:480, setsar=1:1";
+                        } else if(mRatioWidth == 3) {
+                            filterScale = "scale=480:640, setsar=1:1";
+                        } else if(mRatioWidth == 1) {
+                            filterScale = "scale=640:640, setsar=1:1";
+                        }
+
+                        if(rotate == 0) {
+                            filter = "crop="+width+":"+height+":"+positionX+":"+positionY+ ", " + filterScale;
+                        } else if(rotate == 90) {
+                            filter = "crop="+height+":"+width+":"+positionY+":"+positionX + ", " + filterScale;
+                        } else if(rotate == 180) {
+                            filter = "crop="+width+":"+height+":"+(videoWidth - positionX - width)+":"+positionY + ", " + filterScale;
+                        } else if(rotate == 270) {
+                            filter = "crop="+height+":"+width+":"+(videoHeight - positionY - height)+":"+positionX + ", " + filterScale;
+                        } else {
+                            filter = "crop="+width+":"+height+":"+positionX+":"+positionY + ", " + filterScale;
+                        }
+
+                        mExecutor.putCommand("-vf")
+                                .putCommand(filter);
+                    }
+
+                    mExecutor.putCommand("-c:a")
                             .putCommand("copy")
                             .putCommand(Environment.getExternalStorageDirectory().getAbsolutePath() + "/result.mp4")
                             .executeCommand();
