@@ -28,8 +28,6 @@ https://github.com/crust87/Android-VideoTrackView
 Screenshot Video from<br />
 https://www.youtube.com/watch?v=lRpxecLkUHQ<br />
 
-and I will change Application Icon after
-
 ## License
 Copyright 2015 Mabi
 
